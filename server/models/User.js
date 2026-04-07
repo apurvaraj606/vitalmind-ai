@@ -10,27 +10,22 @@ const userSchema = new mongoose.Schema({
   googleId: String,
   phone: String,
   profileImage: String,
-  // Doctor-specific fields
   specialization: String,
   department: String,
   licenseNumber: String,
   consultationFee: { type: Number, default: 100 },
   availability: [{ day: String, slots: [String] }],
-  // Patient-specific fields
   dateOfBirth: Date,
   bloodGroup: String,
   address: String,
   emergencyContact: String,
 }, { timestamps: true });
 
-// Hash password before saving
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password') || !this.password) return next();
+userSchema.pre('save', async function () {
+  if (!this.isModified('password') || !this.password) return;
   this.password = await bcrypt.hash(this.password, 12);
-  next();
 });
 
-// Compare entered password with stored hash
 userSchema.methods.comparePassword = async function (candidate) {
   return bcrypt.compare(candidate, this.password);
 };
