@@ -31,3 +31,5 @@ userSchema.methods.comparePassword = async function (candidate) {
 };
 
 module.exports = mongoose.model('User', userSchema);
+
+// This file defines the User model using Mongoose. It includes fields for user information, authentication, and role-based access control. The password is hashed before saving, and a method is provided to compare passwords during login.
