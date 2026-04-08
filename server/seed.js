@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 
 async function seed() {
@@ -11,18 +12,23 @@ async function seed() {
     email: { $in: ['admin@vitalmind.ai', 'doctor@vitalmind.ai', 'patient@vitalmind.ai'] }
   });
 
+  // Hash passwords explicitly
+  const adminPass = await bcrypt.hash('Admin@123', 12);
+  const doctorPass = await bcrypt.hash('Doctor@123', 12);
+  const patientPass = await bcrypt.hash('Patient@123', 12);
+
   await User.create([
     {
       name: 'Admin User',
       email: 'admin@vitalmind.ai',
-      password: 'Admin@123',
+      password: adminPass,
       role: 'admin',
       isApproved: true,
     },
     {
       name: 'Dr. Sarah Johnson',
       email: 'doctor@vitalmind.ai',
-      password: 'Doctor@123',
+      password: doctorPass,
       role: 'doctor',
       isApproved: true,
       specialization: 'Cardiology',
@@ -38,7 +44,7 @@ async function seed() {
     {
       name: 'Demo Patient',
       email: 'patient@vitalmind.ai',
-      password: 'Patient@123',
+      password: patientPass,
       role: 'patient',
       isApproved: true,
       bloodGroup: 'O+',

@@ -23,7 +23,10 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function () {
   if (!this.isModified('password') || !this.password) return;
-  this.password = await bcrypt.hash(this.password, 12);
+  // Only hash if it's not already hashed (hashed passwords start with $2a, $2b, or $2x)
+  if (!this.password.startsWith('$2')) {
+    this.password = await bcrypt.hash(this.password, 12);
+  }
 });
 
 userSchema.methods.comparePassword = async function (candidate) {
