@@ -12,15 +12,14 @@ const app = express();
 
 // ULTRA-SIMPLE CORS FIX - Manual headers
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  res.set('Access-Control-Allow-Origin', origin || 'http://localhost:5173');
-  res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.set('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Origin', req.headers.origin || 'http://localhost:5173');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
   
   // Handle preflight
   if (req.method === 'OPTIONS') {
-    return res.send();
+    return res.status(200).end();
   }
   
   next();

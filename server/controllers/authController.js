@@ -17,11 +17,11 @@ exports.register = async (req, res) => {
     if (await User.findOne({ email }))
       return res.status(400).json({ message: 'Email already registered' });
 
-    // Patients auto-approved; doctors need admin approval
+    // All users approved by default for development
     const user = await User.create({
       name, email, password,
       role: role || 'patient',
-      isApproved: (role === 'patient' || !role) ? true : false,
+      isApproved: true,
       specialization, department, licenseNumber, consultationFee,
       dateOfBirth, bloodGroup,
     });
@@ -37,20 +37,26 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('🔐 Login attempt:', email);
 
     // Validate input
     if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
 
     const user = await User.findOne({ email });
+    console.log('👤 User found:', user ? user.email : 'NOT FOUND');
+    
     if (!user || !user.password) return res.status(400).json({ message: 'Invalid credentials' });
     if (!await user.comparePassword(password)) return res.status(400).json({ message: 'Invalid credentials' });
-    if (!user.isApproved) return res.status(403).json({ message: 'Account pending admin approval' });
 
+    console.log('✅ Login successful for:', email);
     res.json({
       token: generateToken(user._id),
       user: { id: user._id, name: user.name, email: user.email, role: user.role, isApproved: user.isApproved },
     });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+  } catch (err) { 
+    console.error('❌ Login error:', err.message);
+    res.status(500).json({ message: err.message }); 
+  }
 };
 
 // Get currently logged-in user
