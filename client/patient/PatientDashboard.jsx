@@ -1,10 +1,10 @@
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../src/context/AuthContext';
 import PatientHome from './PatientHome';
 import BookAppointment from './BookAppointment';
 import MyAppointments from './MyAppointments';
 import MyPrescriptions from './MyPrescriptions';
-import Logo from '../../components/Logo';
+import Logo from '../src/components/Logo';
 
 export default function PatientDashboard() {
   const { user, logout } = useAuth();

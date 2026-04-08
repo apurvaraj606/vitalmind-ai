@@ -1,10 +1,10 @@
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../src/context/AuthContext';
 import AdminHome from './AdminHome';
 import ManageUsers from './ManageUsers';
 import AdminAppointments from './AdminAppointments';
 import ManageRecords from './ManageRecords';
-import Logo from '../../components/Logo';
+import Logo from '../src/components/Logo';
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();

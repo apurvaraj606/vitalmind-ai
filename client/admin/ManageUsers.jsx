@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../api';
+import api from '../src/api';
 
 const ROLE_STYLE = {
   admin:   { bg: '#1a1a2e', color: '#fff' },

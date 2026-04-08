@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import api from '../../api';
+import { useAuth } from '../src/context/AuthContext';
+import api from '../src/api';
 
 export default function DoctorHome() {
   const { user } = useAuth();

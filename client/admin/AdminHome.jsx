@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../api';
+import api from '../src/api';
 
 export default function AdminHome() {
   const [stats, setStats] = useState({ users: 0, doctors: 0, patients: 0, appointments: 0, pending: 0, revenue: 0 });

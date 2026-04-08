@@ -12,9 +12,15 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       api.get('/auth/me')
-        .then(r => setUser(r.data))
-        .catch(() => localStorage.removeItem('token'))
-        .finally(() => setLoading(false));
+        .then(r => {
+          setUser(r.data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('Failed to restore session:', err);
+          localStorage.removeItem('token');
+          setLoading(false);
+        });
     } else {
       setLoading(false);
     }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../api';
+import api from '../src/api';
 
 const STATUS = {
   pending:   { bg: '#fef3c7', color: '#92400e' },

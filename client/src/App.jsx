@@ -4,9 +4,9 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OAuthSuccess from './pages/OAuthSuccess';
-import PatientDashboard from './pages/patient/PatientDashboard';
-import DoctorDashboard from './pages/doctor/DoctorDashboard';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import PatientDashboard from '../patient/PatientDashboard';
+import DoctorDashboard from '../doctor/DoctorDashboard';
+import AdminDashboard from '../admin/AdminDashboard';
 import ChatBot from './components/ChatBot';
 
 // Protects routes — redirects to login if not authenticated

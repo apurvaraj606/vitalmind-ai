@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../api';
+import api from '../src/api';
 
 const RECORD_COLORS = { lab_result: '#dbeafe', imaging: '#fce7f3', prescription: '#d1fae5', report: '#fef3c7', other: '#f3f4f6' };
 const RECORD_TEXT =   { lab_result: '#1e40af', imaging: '#9d174d', prescription: '#065f46', report: '#92400e', other: '#374151' };

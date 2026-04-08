@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../api';
+import api from '../src/api';
 
 // Status badge styles
 const STATUS = {
