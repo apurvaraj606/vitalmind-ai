@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Base API instance — automatically attaches JWT token to every request
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',
+  baseURL: 'https://vitalmind-ai-e9xn.onrender.com/api',
 });
 
 api.interceptors.request.use(config => {
