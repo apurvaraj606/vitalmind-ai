@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Logo from '../components/Logo';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { FaGoogle } from 'react-icons/fa';
 
 export default function LoginPage() {
@@ -80,99 +80,14 @@ export default function LoginPage() {
         position: 'relative',
         zIndex: 1,
       }}>
-        {/* Left side - Brand showcase */}
-        <div style={{
-          flex: 1,
-          color: 'white',
-          display: 'none',
-          '@media (min-width: 1024px)': { display: 'block' }
-        }}>
-          <div style={{ marginBottom: '50px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
-              <div style={{
-                width: '64px',
-                height: '64px',
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '2px solid rgba(255,255,255,0.2)',
-              }}>
-                <Logo size={48} white />
-              </div>
-              <h1 style={{ fontSize: '44px', fontWeight: 900, margin: 0, letterSpacing: '-1px' }}>VitalMind.ai</h1>
-            </div>
-            <p style={{ fontSize: '18px', opacity: 0.95, marginBottom: '8px', fontWeight: 500 }}>Healthcare Reimagined</p>
-            <p style={{ fontSize: '15px', opacity: 0.8, maxWidth: '400px', lineHeight: 1.6 }}>Experience seamless healthcare management with AI-powered insights and secure medical consultations</p>
-          </div>
-
-          {/* Features list */}
-          <div style={{ marginTop: '60px', space: '24px' }}>
-            {[
-              { icon: Heart, text: '500+ Verified Doctors' },
-              { icon: Users, text: '10K+ Active Patients' },
-              { icon: Shield, text: 'Enterprise Security' },
-              { icon: Zap, text: 'Instant Consultations' },
-            ].map((feature, i) => {
-              const Icon = feature.icon;
-              return (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px', opacity: 0.95 }}>
-                  <div style={{
-                    width: '44px',
-                    height: '44px',
-                    background: 'rgba(255,255,255,0.15)',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    backdropFilter: 'blur(10px)',
-                  }}>
-                    <Icon size={22} />
-                  </div>
-                  <span style={{ fontSize: '15px', fontWeight: 500 }}>{feature.text}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Stats */}
-          <div style={{ marginTop: '50px', paddingTop: '30px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-              {[
-                { number: '99.9%', label: 'Uptime' },
-                { number: '2M+', label: 'Consultations' },
-                { number: '48h', label: 'Avg Response' },
-              ].map((stat, i) => (
-                <div key={i}>
-                  <div style={{ fontSize: '28px', fontWeight: 800, marginBottom: '4px' }}>{stat.number}</div>
-                  <div style={{ fontSize: '12px', opacity: 0.7, fontWeight: 500 }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right side - Login form */}
+        {/* Login form */}
         <div style={{
           flex: 1,
           maxWidth: '480px',
           width: '100%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
         }}>
-          {/* Mobile header */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            marginBottom: '32px',
-            '@media (min-width: 1024px)': { display: 'none' }
-          }}>
-            <Logo size={40} white />
-            <span style={{ color: '#fff', fontSize: '24px', fontWeight: 800 }}>VitalMind.ai</span>
-          </div>
-
           {/* Form card */}
           <div style={{
             background: 'rgba(255,255,255,0.98)',
@@ -183,7 +98,11 @@ export default function LoginPage() {
             border: '1px solid rgba(255,255,255,0.3)',
           }}>
             {/* Header */}
-            <div style={{ marginBottom: '32px' }}>
+            <div style={{ marginBottom: '32px', textAlign: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '20px' }}>
+                <Logo size={40} />
+                <span style={{ fontSize: '24px', fontWeight: 800, background: 'linear-gradient(135deg, #667eea, #764ba2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>VitalMind</span>
+              </div>
               <h2 style={{
                 color: '#1a1a1a',
                 fontSize: '32px',
@@ -197,7 +116,7 @@ export default function LoginPage() {
               <p style={{
                 color: '#666',
                 fontSize: '14px',
-              }}>Sign in to your account to access healthcare management</p>
+              }}>Sign in to access your healthcare management</p>
             </div>
 
             {/* Error message */}
@@ -239,7 +158,6 @@ export default function LoginPage() {
                   borderRadius: '12px',
                   padding: '13px 16px',
                   transition: 'all 0.3s ease',
-                  cursor: 'text',
                 }}>
                   <Mail size={18} style={{ color: '#667eea', marginRight: '12px', flexShrink: 0 }} />
                   <input
@@ -329,7 +247,7 @@ export default function LoginPage() {
                   <input type="checkbox" defaultChecked style={{ cursor: 'pointer' }} />
                   Remember me
                 </label>
-                <a href="#" style={{ color: '#667eea', textDecoration: 'none', fontWeight: 600, hover: { color: '#764ba2' } }}>
+                <a href="#" style={{ color: '#667eea', textDecoration: 'none', fontWeight: 600 }}>
                   Forgot password?
                 </a>
               </div>
@@ -367,10 +285,9 @@ export default function LoginPage() {
               alignItems: 'center',
               gap: '12px',
               margin: '28px 0',
-              color: '#ddd',
             }}>
               <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
-              <span style={{ fontSize: '12px', color: '#999', fontWeight: 600 }}>OR CONTINUE WITH</span>
+              <span style={{ fontSize: '12px', color: '#999', fontWeight: 600 }}>OR</span>
               <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
             </div>
 
@@ -420,9 +337,9 @@ export default function LoginPage() {
               <p style={{ fontSize: '12px', color: '#999', fontWeight: 600, marginBottom: '12px', textAlign: 'center' }}>DEMO ACCOUNTS</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
                 {[
-                  { role: '👤 Patient', email: 'patient@test.com', pass: 'password123' },
-                  { role: '👨‍⚕️ Doctor', email: 'doctor@test.com', pass: 'password123' },
-                  { role: '⚙️ Admin', email: 'admin@test.com', pass: 'password123' },
+                  { role: '👤 Patient', email: 'patient@vitalmind.ai', pass: 'Patient@123' },
+                  { role: '👨‍⚕️ Doctor', email: 'doctor@vitalmind.ai', pass: 'Doctor@123' },
+                  { role: '⚙️ Admin', email: 'admin@vitalmind.ai', pass: 'Admin@123' },
                 ].map((demo, i) => (
                   <button
                     key={i}
@@ -437,6 +354,14 @@ export default function LoginPage() {
                       color: '#666',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = '#f0f0f0';
+                      e.currentTarget.style.borderColor = '#667eea';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = '#f9fafb';
+                      e.currentTarget.style.borderColor = '#e5e7eb';
                     }}
                   >
                     {demo.role}
