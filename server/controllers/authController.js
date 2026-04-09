@@ -17,19 +17,29 @@ exports.register = async (req, res) => {
     if (await User.findOne({ email }))
       return res.status(400).json({ message: 'Email already registered' });
 
-    // All users approved by default for development
+    // Doctors require admin approval, patients & admins auto-approved
+    const isDoctor = role === 'doctor';
     const user = await User.create({
       name, email, password,
       role: role || 'patient',
-      isApproved: true,
+      isApproved: !isDoctor, // Doctors: false, Others: true
       specialization, department, licenseNumber, consultationFee,
       dateOfBirth, bloodGroup,
     });
 
-    res.status(201).json({
-      token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email, role: user.role, isApproved: user.isApproved },
-    });
+    if (isDoctor) {
+      // If registering as doctor, don't auto-login
+      res.status(201).json({
+        message: 'Registration successful! Your profile is pending admin approval. You will receive an email once approved.',
+        user: { id: user._id, name: user.name, email: user.email, role: user.role, isApproved: user.isApproved },
+      });
+    } else {
+      // Patients can login immediately
+      res.status(201).json({
+        token: generateToken(user._id),
+        user: { id: user._id, name: user.name, email: user.email, role: user.role, isApproved: user.isApproved },
+      });
+    }
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
 
@@ -47,6 +57,19 @@ exports.login = async (req, res) => {
     
     if (!user || !user.password) return res.status(400).json({ message: 'Invalid credentials' });
     if (!await user.comparePassword(password)) return res.status(400).json({ message: 'Invalid credentials' });
+
+    // Check if user is approved (especially important for doctors)
+    if (!user.isApproved) {
+      if (user.role === 'doctor') {
+        console.log('❌ Doctor login blocked - pending approval:', email);
+        return res.status(403).json({ 
+          message: 'Your account is pending admin approval. You will be able to login once approved.',
+          status: 'pending_approval'
+        });
+      }
+      console.log('❌ User account not approved:', email);
+      return res.status(403).json({ message: 'Account pending approval' });
+    }
 
     console.log('✅ Login successful for:', email);
     res.json({

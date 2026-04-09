@@ -28,6 +28,24 @@ router.get('/doctors', async (req, res) => {
 
 /**
  * @swagger
+ * /api/users/doctors/pending:
+ *   get:
+ *     summary: Get pending doctors (admin only)
+ *     tags: [Users]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: List of pending doctors
+ */
+router.get('/doctors/pending', protect, authorize('admin'), async (req, res) => {
+  try {
+    const doctors = await User.find({ role: 'doctor', isApproved: false }).select('-password');
+    res.json(doctors);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+/**
+ * @swagger
  * /api/users:
  *   get:
  *     summary: Get all users (admin only)

@@ -15,8 +15,20 @@ export default function RegisterPage() {
     e.preventDefault(); setError(''); setLoading(true);
     try {
       const { data } = await api.post('/auth/register', form);
-      localStorage.setItem('token', data.token);
-      navigate(`/${data.user.role}`);
+      
+      // If doctor registration, show pending approval message
+      if (form.role === 'doctor' && !data.token) {
+        setError('');
+        alert('✅ Registration successful!\n\nYour account is pending admin approval. You will receive an email notification once approved. Please contact support if you need assistance.');
+        navigate('/login');
+        return;
+      }
+      
+      // For patients, login immediately
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        navigate(`/${data.user.role}`);
+      }
     } catch (err) { setError(err.response?.data?.message || 'Registration failed'); }
     finally { setLoading(false); }
   };

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
+import { ArrowRight } from 'lucide-react';
 
 const FEATURES = [
   { icon: '📅', title: 'Smart Scheduling', desc: 'Book appointments with top doctors in under 60 seconds. Real-time slot availability.' },

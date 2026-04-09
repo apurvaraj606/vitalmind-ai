@@ -52,7 +52,7 @@ export default function PatientHome() {
         ].map((a, i) => (
           <div key={i} className="card p-3"
             style={{ cursor: 'pointer', borderTop: `4px solid ${a.color}` }}
-            onClick={() => a.link ? navigate(a.link) : document.querySelector('button[style*="bottom: 28px"]')?.click()}>
+            onClick={() => a.link ? window.location.href = a.link : document.querySelector('button[style*="bottom: 28px"]')?.click()}>
             <div style={{ fontSize: 32, marginBottom: 8 }}>{a.icon}</div>
             <div style={{ fontWeight: 700, fontSize: 15, color: '#1a1a2e', marginBottom: 4 }}>{a.title}</div>
             <div style={{ color: '#888', fontSize: 12 }}>{a.desc}</div>
@@ -84,3 +84,4 @@ export default function PatientHome() {
     </div>
   );
 }
+

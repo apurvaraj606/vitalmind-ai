@@ -4,7 +4,13 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import api from '../src/api';
 
 // Load Stripe with publishable key from environment variable
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder');
+const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+
+if (!publishableKey || publishableKey.includes('undefined')) {
+  console.error('⚠️ Stripe publishable key is not configured. Check your .env file.');
+}
+
+const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 
 // Stripe payment form component
 function PaymentForm({ appt, clientSecret, onSuccess }) {
@@ -77,8 +83,10 @@ export default function BookAppointment() {
       setBookedAppt({ ...appt, amount: pay.amount / 100 });
       setClientSecret(pay.clientSecret);
       setStep(3);
-    } catch (err) { alert(err.response?.data?.message || 'Booking failed'); }
-    setLoading(false);
+    } catch (err) { 
+      alert(err.response?.data?.message || 'Booking failed'); 
+      setLoading(false);
+    }
   };
 
   const resetFlow = () => { setStep(1); setSuccess(false); setSelectedDoc(null); setForm({ date: '', timeSlot: '', reason: '' }); };
@@ -169,7 +177,7 @@ export default function BookAppointment() {
           <div style={{ marginBottom: 16 }}>
             <label style={{ fontWeight: 600, fontSize: 13, color: '#444', display: 'block', marginBottom: 8 }}>Available Time Slots</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {(selectedDoc.availability?.flatMap(a => a.slots) || []).map(s => (
+              {Array.from(new Set(selectedDoc.availability?.flatMap(a => a.slots) || [])).sort().map(s => (
                 <button key={s} type="button" onClick={() => setForm({ ...form, timeSlot: s })}
                   style={{ padding: '6px 14px', borderRadius: 20, border: form.timeSlot === s ? 'none' : '1.5px solid #e0e0e0', background: form.timeSlot === s ? 'linear-gradient(135deg,#667eea,#764ba2)' : '#fff', color: form.timeSlot === s ? '#fff' : '#444', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
                   {s}
@@ -195,10 +203,23 @@ export default function BookAppointment() {
       )}
 
       {/* Step 3 — Payment */}
-      {step === 3 && clientSecret && bookedAppt && (
+      {step === 3 && clientSecret && bookedAppt && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <PaymentForm appt={bookedAppt} clientSecret={clientSecret} onSuccess={() => setSuccess(true)} />
         </Elements>
+      )}
+      {step === 3 && (!stripePromise || !clientSecret || !bookedAppt) && (
+        <div style={{
+          textAlign: 'center',
+          padding: '40px',
+          background: '#fee',
+          borderRadius: 12,
+          color: '#c33',
+        }}>
+          <div style={{ fontSize: 24, marginBottom: 12 }}>⚠️</div>
+          <p style={{ fontWeight: 600 }}>Payment system not configured</p>
+          <p style={{ fontSize: 13, opacity: 0.8 }}>Please check your Stripe API key configuration in .env file</p>
+        </div>
       )}
     </div>
   );
