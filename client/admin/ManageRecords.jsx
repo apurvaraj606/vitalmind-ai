@@ -160,7 +160,7 @@ export default function ManageRecords() {
                   <td style={{ padding: '12px 16px', color: '#777' }}>{new Date(r.createdAt).toLocaleDateString()}</td>
                   <td style={{ padding: '12px 16px' }}>
                     {r.fileUrl
-                      ? <a href={`http://localhost:5000${r.fileUrl}`} target="_blank" rel="noreferrer" style={{ color: '#667eea', fontWeight: 600, fontSize: 12, textDecoration: 'none' }}>📄 View</a>
+                      ? <a href={`https://vitalmind-ai-e9xn.onrender.com${r.fileUrl}`} target="_blank" rel="noreferrer" style={{ color: '#667eea', fontWeight: 600, fontSize: 12, textDecoration: 'none' }}>📄 View</a>
                       : <span style={{ color: '#bbb', fontSize: 12 }}>No file</span>}
                   </td>
                   <td style={{ padding: '12px 16px' }}>
