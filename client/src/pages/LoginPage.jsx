@@ -293,7 +293,7 @@ export default function LoginPage() {
 
             {/* Google OAuth button */}
             <button
-              onClick={() => window.location.href = 'http://localhost:5001/api/auth/google'}
+              onClick={() => window.location.href = 'https://vitalmind-ai-e9xn.onrender.com/api/auth/google'}
               style={{
                 width: '100%',
                 padding: '13px 16px',
